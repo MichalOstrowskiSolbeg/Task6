@@ -1,0 +1,38 @@
+html {
+    background-color: #E7F4F4;
+    font-family: sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.body-container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+
+main {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.errors-text {
+    font-size: 0.8em;
+    margin-left: 0.5rem;
+    color: #e20c0c;
+}
+
+.symbol-required {
+    color: #e20c0c;
+}
