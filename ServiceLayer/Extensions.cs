@@ -14,6 +14,11 @@ namespace ServiceLayer
         public static IServiceCollection AddServiceLayer(this IServiceCollection services)
         {
             services.AddScoped<IUser, UserService>();
+            services.AddScoped<IIncomeCategory, IncomeCategoryService>();
+            services.AddScoped<IExpenseCategory, ExpenseCategoryService>();
+            services.AddScoped<IIncome, IncomeService>();
+            services.AddScoped<IExpense, ExpenseService>();
+            services.AddScoped<IStatistics, StatisticsService>();
 
             return services;
         }

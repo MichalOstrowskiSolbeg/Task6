@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.DTO.Requests;
 using ServiceLayer.Interfaces;
 
-namespace Api.Controllers
+namespace API.Controllers
 {
     public class UserController : ApiControllerBase
     {

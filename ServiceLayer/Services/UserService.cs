@@ -48,13 +48,18 @@ namespace ServiceLayer.Services
                 throw new Exception("Incorrect");
             }
 
+            List<Claim> userclaim = new List<Claim>
+            {
+                new Claim("Id", user.Id.ToString()),
+            };
+
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: "https://localhost:5001",
                 audience: "https://localhost:5001",
-                //claims: userclaim,
+                claims: userclaim,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds
             );

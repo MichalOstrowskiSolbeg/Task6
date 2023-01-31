@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using RepositoryLayer;
 using ServiceLayer;
+using ServiceLayer.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,10 @@ builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(build
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-//builder.Services.AddValidatorsFromAssembly(typeof(RegisterRequestValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(RegisterRequestValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(LoginRequestValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(IncomeRequestValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(ExpenseRequestValidator).Assembly);
 
 builder.Services.AddRepositoryLayer().AddServiceLayer();
 

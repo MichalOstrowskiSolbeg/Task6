@@ -8,8 +8,9 @@ namespace RepositoryLayer.Models
         public User()
         {
             ExpenseCategories = new HashSet<ExpenseCategory>();
+            Expenses = new HashSet<Expense>();
             IncomeCategories = new HashSet<IncomeCategory>();
-            MoneyEntities = new HashSet<MoneyEntity>();
+            Incomes = new HashSet<Income>();
         }
 
         public int Id { get; set; }
@@ -23,7 +24,8 @@ namespace RepositoryLayer.Models
         public DateTime? RefreshTokenExp { get; set; }
 
         public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; }
+        public virtual ICollection<Expense> Expenses { get; set; }
         public virtual ICollection<IncomeCategory> IncomeCategories { get; set; }
-        public virtual ICollection<MoneyEntity> MoneyEntities { get; set; }
+        public virtual ICollection<Income> Incomes { get; set; }
     }
 }

@@ -50,7 +50,8 @@ class Register extends Component {
         if (isValid) {
             try {
                 await register(this.state.user)
-                await navigate("/", { replace: true });
+                alert('Account created')
+                navigate("/", { replace: true });
             } catch (error) {
                 console.log(error)
                 this.setState({
@@ -63,24 +64,24 @@ class Register extends Component {
     validateField = (fieldName, fieldValue) => {
         let errorMessage = '';
         if (fieldName === 'FirstName') {
-            if (!checkTextRange(fieldValue, 2, 50)) {
-                errorMessage = `This field requires from 2 to 50 characters`
+            if (!checkTextRange(fieldValue, 2, 30)) {
+                errorMessage = `This field requires from 2 to 30 characters`
             }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'LastName') {
-            if (!checkTextRange(fieldValue, 2, 50)) {
-                errorMessage = `This field requires from 2 to 50 characters`
+            if (!checkTextRange(fieldValue, 2, 30)) {
+                errorMessage = `This field requires from 2 to 30 characters`
             }
             if (!fieldValue) {
                 errorMessage = `Required`
             }
         }
         if (fieldName === 'Username') {
-            if (!checkTextRange(fieldValue, 2, 50)) {
-                errorMessage = `This field requires from 2 to 50 characters`
+            if (!checkTextRange(fieldValue, 2, 30)) {
+                errorMessage = `This field requires from 2 to 30 characters`
             }
             if (!fieldValue) {
                 errorMessage = `Required`

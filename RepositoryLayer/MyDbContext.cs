@@ -21,7 +21,6 @@ namespace RepositoryLayer
         public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; } = null!;
         public virtual DbSet<Income> Incomes { get; set; } = null!;
         public virtual DbSet<IncomeCategory> IncomeCategories { get; set; } = null!;
-        public virtual DbSet<MoneyEntity> MoneyEntities { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,16 +35,19 @@ namespace RepositoryLayer
         {
             modelBuilder.Entity<Expense>(entity =>
             {
-                entity.HasKey(e => e.MoneyEntityId)
-                    .HasName("Expense_pk");
-
                 entity.ToTable("Expense");
 
-                entity.Property(e => e.MoneyEntityId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Money_Entity_Id");
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.ExpenseCategoryId).HasColumnName("Expense_Category_Id");
+
+                entity.Property(e => e.Price).HasColumnType("money");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
 
                 entity.HasOne(d => d.ExpenseCategory)
                     .WithMany(p => p.Expenses)
@@ -53,11 +55,11 @@ namespace RepositoryLayer
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Expense_Expense_Category");
 
-                entity.HasOne(d => d.MoneyEntity)
-                    .WithOne(p => p.Expense)
-                    .HasForeignKey<Expense>(d => d.MoneyEntityId)
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Expenses)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Expense_Money_Entity");
+                    .HasConstraintName("Expense_User");
             });
 
             modelBuilder.Entity<ExpenseCategory>(entity =>
@@ -79,16 +81,19 @@ namespace RepositoryLayer
 
             modelBuilder.Entity<Income>(entity =>
             {
-                entity.HasKey(e => e.MoneyEntityId)
-                    .HasName("Income_pk");
-
                 entity.ToTable("Income");
 
-                entity.Property(e => e.MoneyEntityId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Money_Entity_Id");
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.IncomeCategoryId).HasColumnName("Income_Category_Id");
+
+                entity.Property(e => e.Price).HasColumnType("money");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
 
                 entity.HasOne(d => d.IncomeCategory)
                     .WithMany(p => p.Incomes)
@@ -96,11 +101,11 @@ namespace RepositoryLayer
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Income_Income_Category");
 
-                entity.HasOne(d => d.MoneyEntity)
-                    .WithOne(p => p.Income)
-                    .HasForeignKey<Income>(d => d.MoneyEntityId)
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Incomes)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Income_Money_Entity");
+                    .HasConstraintName("Income_User");
             });
 
             modelBuilder.Entity<IncomeCategory>(entity =>
@@ -118,27 +123,6 @@ namespace RepositoryLayer
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Income_Category_User");
-            });
-
-            modelBuilder.Entity<MoneyEntity>(entity =>
-            {
-                entity.ToTable("Money_Entity");
-
-                entity.Property(e => e.Comment)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Date).HasColumnType("datetime");
-
-                entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.MoneyEntities)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Money_Entity_User");
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { useParams, useNavigate } from "react-router";
 import { Link } from 'react-router-dom';
+import { getIncomeCategories } from '../../api/IncomeCategoryApiCalls';
 import H1 from '../fragments/H1';
+import IncomeCategoryListTable from './IncomeCategoryListTable';
 
 class IncomeCategoryList extends Component {
     constructor(props) {
@@ -13,12 +15,14 @@ class IncomeCategoryList extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
-            /*const res = await getIncome();
+            const res = await getIncomeCategories();
+            console.log(res)
             this.setState({
-                data: res.data
-            });*/
+                data: res.data,
+                isLoaded: true
+            });
         } catch (error) {
             console.log(error)
         }
@@ -34,7 +38,7 @@ class IncomeCategoryList extends Component {
         } else if (!isLoaded) {
             content = <p>Loading...</p>
         } else {
-            //content = <ProductListTable data={data} />
+            content = <IncomeCategoryListTable data={data} />
         }
 
         return (
@@ -50,6 +54,11 @@ class IncomeCategoryList extends Component {
                             type="button">
                             Back
                         </button>
+                        <Link
+                            to={'/income-categories/add'}
+                            className="ml-4 shadow-xl bg-green-500 hover:bg-white  hover:text-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+                            Add
+                        </Link>
                     </div>
                 </div>
             </main>

@@ -4,6 +4,7 @@ using RepositoryLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,14 +30,15 @@ namespace RepositoryLayer.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task EditIncomeCategory(int id, IncomeCategory incomeCategory)
+        public async Task EditIncomeCategory(IncomeCategory incomeCategory)
         {
-            throw new NotImplementedException();
+            _context.IncomeCategories.Update(incomeCategory);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<List<IncomeCategory>> GetIncomeCategories()
+        public async Task<List<IncomeCategory>> GetIncomeCategories(int userId)
         {
-            return await _context.IncomeCategories.ToListAsync();
+            return await _context.IncomeCategories.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task<IncomeCategory> GetIncomeCategory(int id)

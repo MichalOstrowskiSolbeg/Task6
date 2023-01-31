@@ -34,14 +34,14 @@ function Header(props) {
     return (
         <header>
             <div className="relative bg-white">
-                <div className="flex justify-between items-center border-b-2 border-gray-400 p-4 lg:justify-start lg:space-x-5">
+                <div className="flex justify-between items-center border-b-2 border-gray-400 px-4 py-1 lg:justify-start lg:space-x-5">
                     <div className="flex justify-start xl:flex-auto">
                         <Link to="/">
                             <img
                                 className="shadow-xl"
                                 height="80"
                                 width="80"
-                                src="/logo192.png"
+                                src="./images/image1.jpg"
                                 alt="logo"
                             />
                         </Link>
@@ -50,15 +50,15 @@ function Header(props) {
                         <NavLink to="/"
                             className="text-lg pr-5 font-medium text-gray-500 hover:text-blue-500">
                             Home</NavLink>
-                        { isAuthenticated() && < NavLink to="/"
+                        { isAuthenticated() && < NavLink to="/statistics"
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
                             My statistics</NavLink>
                         }
-                        {isAuthenticated() && < NavLink to="/"
+                        {isAuthenticated() && < NavLink to="/income"
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
                             Income</NavLink>
                         }
-                        {isAuthenticated() && < NavLink to="/"
+                        {isAuthenticated() && < NavLink to="/expense"
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
                             Expenditures</NavLink>
                         }

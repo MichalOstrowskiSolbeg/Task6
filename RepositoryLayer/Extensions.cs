@@ -14,7 +14,10 @@ namespace RepositoryLayer
         public static IServiceCollection AddRepositoryLayer(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
             services.AddScoped<IIncomeCategoryRepository, IncomeCategoryRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
 
             return services;
         }
