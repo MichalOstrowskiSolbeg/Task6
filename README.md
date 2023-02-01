@@ -1,4 +1,3 @@
-
 # Task 6 - "Personal finance app"
 
 Web application "Personal finance app". 
@@ -8,10 +7,6 @@ Main tools and frameworks used in application: MS SQL Server, .NET Core Web API,
 
 
 
-
-## Features
-
-- 
 
 ## Documentation
 
@@ -38,20 +33,22 @@ I created ApiControllerBase class which is inherited by all controllers in API l
 ApiControllerBase class has methods which check data stored in JWT: role, user ID. 
 It allows me to process requested data for user without sending additional data.
 
+I implemented refresh token mechanism. When Bearer token is expired and client application
+receives 401 status code, frontend sends refresh token to the server. If refresh token is correct, server creates new access token and sends it back to client app.
 
-
+'My statistics' page allows users to track their income and expenditures. Page is split into 3 parts: balance, income and expense. Each part has label and charts. User can choose one of the 5 time ranges in select component ('This month', 'Last month', 'This year', 'Last year', 'All time').
 ## How to run (in Visual Studio)
 
 - write 'cd ui' in Powershell terminal
 - write 'npm install' (when running for the first time) 
 - write 'npm start' to run React application
-- run ASP .Net application using IIS Express
+- run ASP .NET Core application using IIS Express
 
-![first step](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/screenshot1.png?raw=true)
+![first step](https://github.com/MichalOstrowskiSolbeg/Task6/blob/main/1.png?raw=true)
 
-![second step](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/screenshot2.png?raw=true)
+![second step](https://github.com/MichalOstrowskiSolbeg/Task6/blob/main/2.png?raw=true)
 
-![third step](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/screenshot3.png?raw=true)
+![third step](https://github.com/MichalOstrowskiSolbeg/Task6/blob/main/3.png?raw=true)
 ## Login credentials
 
 Login credentials for test account: (Username: "as", Password: "as")
@@ -65,4 +62,4 @@ I added non-clustered index on "username" column, because every login request re
 Also, I added unique constraint on that column.
 
 
-![Database](https://github.com/MichalOstrowskiSolbeg/Task5/blob/main/Database2.png?raw=true)
+![Database](https://github.com/MichalOstrowskiSolbeg/Task6/blob/main/Task6-database.png?raw=true)
