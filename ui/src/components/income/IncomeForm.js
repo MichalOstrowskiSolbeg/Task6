@@ -82,7 +82,7 @@ class IncomeForm extends React.Component {
 
     validateField = (fieldName, fieldValue) => {
         let errorMessage = '';
-        if (fieldName === 'Category') {
+        if (fieldName === 'CategoryId') {
             if (!fieldValue) {
                 errorMessage = 'Required'
             }
@@ -170,7 +170,7 @@ class IncomeForm extends React.Component {
                     <select name="CategoryId" id="CategoryId" onChange={this.handleChange}
                         className={errors.CategoryId ? 'bg-white rounded w-full sm:w-1/2 md:w-1/4 text-gray-700 focus:outline-none border-b-4 border-red-500 focus:border-red-400 transition duration-500 py-2 px-3'
                             : 'bg-white rounded w-full sm:w-1/2 md:w-1/4 text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-blue-400 transition duration-500 py-2 px-3'}>
-                        <option value="">--Select category--</option>
+                        <option value="0">--Select category--</option>
                         {
                             categories.map(x => (
                                 <option

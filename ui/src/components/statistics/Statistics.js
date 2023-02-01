@@ -63,7 +63,7 @@ class Statistics extends Component {
                     <div className="w-full border border-gray-400 border-rounded bg-white px-2 my-2">
                         <div className="container w-full flex flex-wrap mx-auto">
                             <div className="lg:w-1/5 leading-normal">
-                                <p className="text-xl font-bold my-2 text-center mx-8">Balance chart</p>
+                                <p className="text-xl font-bold my-2 text-center mx-8">Balance</p>
                             </div>
                             <div className="lg:w-4/5 leading-normal">
                                 <StatsChart income={data.IncomeSum} expense={data.ExpenseSum} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useParams, useNavigate } from "react-router";
-import { checkTextRange } from '../../helpers/ValidationHelpers';
+import { checkTextRange, ValidateEmail } from '../../helpers/ValidationHelpers';
 import { register } from '../../api/AuthApiCalls';
 import H1 from '../fragments/H1';
 
@@ -88,6 +88,9 @@ class Register extends Component {
             }
         }
         if (fieldName === 'Email') {
+            if (!ValidateEmail(fieldValue)) {
+                errorMessage = `Incorrect format`
+            }
             if (!checkTextRange(fieldValue, 2, 50)) {
                 errorMessage = `This field requires from 2 to 50 characters`
             }

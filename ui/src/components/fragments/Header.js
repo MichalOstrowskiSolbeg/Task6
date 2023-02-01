@@ -62,9 +62,6 @@ function Header(props) {
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
                             Expenses</NavLink>
                         }
-                        <NavLink to="/"
-                            className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
-                            Policy</NavLink>
                     </nav>
                     <div className=" items-center justify-end flex-auto">
                         {loginLogoutButton}
