@@ -13,7 +13,7 @@ Main tools and frameworks used in application: MS SQL Server, .NET Core Web API,
 Project contains of 4 layers (Repository, Service, API, UI). 
 Each layer is a different project. 
 
-Project uses EF to connect to MsSql database. 
+Project uses EF to connect to Microsoft SQL Server database. 
 Models in RepositoryLayer were created by scaffolding DbContext. 
 
 Validation was made with FluentValidation library which could help me separate request objects from validation.
@@ -24,19 +24,21 @@ Users' passwords stored in database are hashed using Pbkdf2 HMACSHA_512 algorith
 To decrease chance of passwords getting broken I added random string "salt" which is hashed together with password. 
 
 Authorization implemented with JWT Bearer Token. 
-Some endpoint (for example '/Shopping/Purchase') require Bearer Token in request.
+Some endpoint require Bearer Token in request.
 
 I installed Axios library in UI layer to fetch data from backend. 
 It helped me reduce code and increased readability.
 
 I created ApiControllerBase class which is inherited by all controllers in API layer. 
-ApiControllerBase class has methods which check data stored in JWT: role, user ID. 
+ApiControllerBase class has methods which check data stored in JWT: user ID. 
 It allows me to process requested data for user without sending additional data.
 
 I implemented refresh token mechanism. When Bearer token is expired and client application
 receives 401 status code, frontend sends refresh token to the server. If refresh token is correct, server creates new access token and sends it back to client app.
 
 'My statistics' page allows users to track their income and expenditures. Page is split into 3 parts: balance, income and expense. Each part has label and charts. User can choose one of the 5 time ranges in select component ('This month', 'Last month', 'This year', 'Last year', 'All time').
+
+I implemented pagination for Income and Expense pages. User can change page by clicking buttons under table.
 ## How to run (in Visual Studio)
 
 - write 'cd ui' in Powershell terminal
