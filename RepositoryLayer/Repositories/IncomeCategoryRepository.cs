@@ -26,7 +26,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task DeleteIncomeCategory(int id)
         {
-            _context.Incomes.UpdateRange(await _context.Incomes.Where(x => x.IncomeCategoryId == id).ToListAsync());
+            _context.Incomes.RemoveRange(await _context.Incomes.Where(x => x.IncomeCategoryId == id).ToListAsync());
             _context.IncomeCategories.Remove(await _context.IncomeCategories.FirstAsync(x => x.Id == id));
             await _context.SaveChangesAsync();
         }

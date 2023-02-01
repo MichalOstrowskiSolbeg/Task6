@@ -23,9 +23,24 @@ namespace RepositoryLayer.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public User GetUser(string username)
+        public async Task<Guid> GetRefreshToken(User user)
         {
-            return _context.Users.SingleOrDefault(x => x.Username.Equals(username));
+            var refreshToken = Guid.NewGuid();
+            user.RefreshToken = refreshToken.ToString();
+            user.RefreshTokenExp = DateTime.Now.AddHours(10);
+            await _context.SaveChangesAsync();
+
+            return refreshToken;
+        }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.Username.Equals(username));
+        }
+
+        public async Task<User> GetUserByRefreshToken(string refreshToken)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.RefreshToken.Equals(refreshToken));
         }
     }
 }

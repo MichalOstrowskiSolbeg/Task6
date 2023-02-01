@@ -45,6 +45,7 @@ class Login extends Component {
                 const data = await res.data
                 console.log(data)
                 const userString = JSON.stringify(data)
+                console.log(userString)
                 this.props.handleLogin(userString)
                 navigate("/", { replace: true });
             } catch (error) {

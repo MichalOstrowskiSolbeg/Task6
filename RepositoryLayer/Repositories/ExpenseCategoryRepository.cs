@@ -25,7 +25,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task DeleteExpenseCategory(int id)
         {
-            _context.Expenses.UpdateRange(await _context.Expenses.Where(x => x.ExpenseCategoryId == id).ToListAsync());
+            _context.Expenses.RemoveRange(await _context.Expenses.Where(x => x.ExpenseCategoryId == id).ToListAsync());
             _context.ExpenseCategories.Remove(await _context.ExpenseCategories.FirstAsync(x => x.Id == id));
             await _context.SaveChangesAsync();
         }

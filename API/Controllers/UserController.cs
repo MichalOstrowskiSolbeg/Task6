@@ -39,5 +39,18 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> GetAccessToken(string refreshToken)
+        {
+            try
+            {
+                return Ok(await _service.GetNewAccessToken(refreshToken));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

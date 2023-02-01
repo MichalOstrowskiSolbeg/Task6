@@ -1,4 +1,5 @@
 ﻿using ServiceLayer.DTO.Requests;
+using ServiceLayer.DTO.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace ServiceLayer.Interfaces
 {
     public interface IUser
     {
-        Task<string> Login(LoginRequest request);
+        Task<TokenResponse> Login(LoginRequest request);
 
         Task Register(RegisterRequest request);
+
+        Task<string> GetNewAccessToken(string refreshToken);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
 using ServiceLayer.DTO.Requests;
+using ServiceLayer.DTO.Responses;
 using ServiceLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace ServiceLayer.Services
             _configuration = configuration;
         }
 
-        public async Task<string> Login(LoginRequest request)
+        public async Task<TokenResponse> Login(LoginRequest request)
         {
-            var user = _reposistory.GetUser(request.Username);
+            var user = await _reposistory.GetUserByUsername(request.Username);
 
             if(user == null)
             {
@@ -60,16 +61,50 @@ namespace ServiceLayer.Services
                 issuer: "https://localhost:5001",
                 audience: "https://localhost:5001",
                 claims: userclaim,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds
+            );
+
+            var refreshToken = await _reposistory.GetRefreshToken(user);
+
+            return new TokenResponse{
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                RefreshToken = refreshToken.ToString()
+            };
+        }
+
+        public async Task<string> GetNewAccessToken(string refreshToken)
+        {
+            var user = await _reposistory.GetUserByRefreshToken(refreshToken);
+            if (user == null || user.RefreshTokenExp < DateTime.Now)
+            {
+                throw new Exception("Incorrect");
+            }
+
+            List<Claim> userclaim = new List<Claim>
+            {
+                new Claim("Id", user.Id.ToString()),
+            };
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: "https://localhost:5001",
+                audience: "https://localhost:5001",
+                claims: userclaim,
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+    
 
         public async Task Register(RegisterRequest request)
         {
-            if(_reposistory.GetUser(request.Username) != null)
+            var user = await _reposistory.GetUserByUsername(request.Username);
+            if (user != null)
             {
                 throw new Exception("This username is already taken");
             }

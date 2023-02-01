@@ -9,8 +9,12 @@ namespace RepositoryLayer.Interfaces
 {
     public interface IUserRepository
     {
-        User GetUser(string username);
+        Task<User> GetUserByUsername(string username);
+
+        Task<User> GetUserByRefreshToken(string refreshToken);
 
         Task AddUser(User user);
+
+        Task<Guid> GetRefreshToken(User user);
     }
 }
