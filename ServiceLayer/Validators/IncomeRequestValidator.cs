@@ -14,7 +14,7 @@ namespace ServiceLayer.Validators
         {
             RuleFor(x => x.Price).GreaterThan(0);
 
-            RuleFor(x => x.Comment).Length(2, 150);
+            RuleFor(x => x.Comment).MaximumLength(150);
         }
     }
 }

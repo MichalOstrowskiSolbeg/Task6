@@ -11,20 +11,29 @@ class IncomeList extends Component {
         this.state = {
             data: [],
             isLoaded: false,
+            page: 1,
             error: ''
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getData(this.state.page)
+    }
+
+    async getData(page) {
         try {
-            const res = await getIncome();
+            const res = await getIncome(page);
             this.setState({
                 data: res.data,
                 isLoaded: true
             });
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
+    }
+
+    changePage = (page) => {
+        this.getData(page)
     }
 
     render() {
@@ -37,7 +46,7 @@ class IncomeList extends Component {
         } else if (!isLoaded) {
             content = <p>Loading...</p>
         } else {
-            content = <IncomeListTable data={data} />
+            content = <IncomeListTable data={data} changePage={this.changePage} />
         }
 
         return (

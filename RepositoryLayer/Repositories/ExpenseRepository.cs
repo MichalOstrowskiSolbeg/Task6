@@ -37,12 +37,12 @@ namespace RepositoryLayer.Repositories
 
         public async Task<Expense> GetExpense(int id)
         {
-            return await _context.Expenses.Include(x => x.ExpenseCategory).FirstAsync(x => x.Id == id);
+            return await _context.Expenses.Include(x => x.ExpenseCategory).AsNoTracking().FirstAsync(x => x.Id == id);
         }
 
         public async Task<List<Expense>> GetExpenses(int userID)
         {
-            return await _context.Expenses.Include(x => x.ExpenseCategory).Where(x => x.UserId == userID).ToListAsync();
+            return await _context.Expenses.Include(x => x.ExpenseCategory).Where(x => x.UserId == userID).OrderBy(x => x.Date).ToListAsync();
         }
     }
 }

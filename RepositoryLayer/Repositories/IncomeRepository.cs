@@ -20,12 +20,12 @@ namespace RepositoryLayer.Repositories
 
         public async Task<List<Income>> GetIncomes(int userID)
         {
-            return await _context.Incomes.Include(x => x.IncomeCategory).Where(x => x.UserId == userID).ToListAsync();
+            return await _context.Incomes.Include(x => x.IncomeCategory).Where(x => x.UserId == userID).OrderBy(x => x.Date).ToListAsync();
         }
 
         public async Task<Income> GetIncome(int id)
         {
-            return await _context.Incomes.Include(x => x.IncomeCategory).FirstAsync(x => x.Id == id);
+            return await _context.Incomes.Include(x => x.IncomeCategory).AsNoTracking().FirstAsync(x => x.Id == id);
         }
 
         public async Task AddIncome(Income income)

@@ -11,7 +11,7 @@ namespace ServiceLayer.Interfaces
 {
     public interface IIncome
     {
-        Task<List<IncomeResponse>> GetUserIncomes(int userId);
+        Task<PaginatedResponse<IncomeResponse>> GetUserIncomes(int userId, int page);
 
         Task<IncomeResponse> GetIncome(int id);
 

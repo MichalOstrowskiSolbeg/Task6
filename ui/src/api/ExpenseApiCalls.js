@@ -1,7 +1,7 @@
 import api from "./AuthApi";
 
-export async function getExpenses() {
-    return await api.get('/Expense');
+export async function getExpenses(page) {
+    return await api.get(`/Expense?page=${page}`);
 }
 
 export async function getExpenseDetails(id) {

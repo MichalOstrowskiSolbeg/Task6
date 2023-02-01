@@ -25,6 +25,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task DeleteExpenseCategory(int id)
         {
+            _context.Expenses.UpdateRange(await _context.Expenses.Where(x => x.ExpenseCategoryId == id).ToListAsync());
             _context.ExpenseCategories.Remove(await _context.ExpenseCategories.FirstAsync(x => x.Id == id));
             await _context.SaveChangesAsync();
         }
@@ -37,12 +38,12 @@ namespace RepositoryLayer.Repositories
 
         public async Task<List<ExpenseCategory>> GetExpenseCategories(int userId)
         {
-            return await _context.ExpenseCategories.Where(x => x.UserId == userId).ToListAsync();
+            return await _context.ExpenseCategories.Where(x => x.UserId == userId).AsNoTracking().ToListAsync();
         }
 
         public async Task<ExpenseCategory> GetExpenseCategory(int id)
         {
-            return await _context.ExpenseCategories.FirstAsync(x => x.Id == id);
+            return await _context.ExpenseCategories.AsNoTracking().FirstAsync(x => x.Id == id);
         }
     }
 }

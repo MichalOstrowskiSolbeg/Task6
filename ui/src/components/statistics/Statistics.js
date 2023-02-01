@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { Link } from 'react-router-dom';
 import { getStats } from '../../api/StatisticsApiCalls';
 import H1 from '../fragments/H1';
-import Chart2 from './StatsChartGrouped';
+import StatsChartGrouped from './StatsChartGrouped';
 import StatsChart from './StatsChart';
 
 class Statistics extends Component {
@@ -12,12 +12,13 @@ class Statistics extends Component {
         this.state = {
             data: [],
             isLoaded: false,
+            timeRange: 1,
             error: ''
         }
     }
 
     componentDidMount() {
-        this.getStatistics(1)
+        this.getStatistics(this.state.timeRange)
     }
 
     async getStatistics(time) {
@@ -62,7 +63,7 @@ class Statistics extends Component {
                     <div className="w-full border border-gray-400 border-rounded bg-white px-2 my-2">
                         <div className="container w-full flex flex-wrap mx-auto">
                             <div className="lg:w-1/5 leading-normal">
-                                <p className="text-xl font-bold my-2 text-center mx-8">Finance chart</p>
+                                <p className="text-xl font-bold my-2 text-center mx-8">Balance chart</p>
                             </div>
                             <div className="lg:w-4/5 leading-normal">
                                 <StatsChart income={data.IncomeSum} expense={data.ExpenseSum} />
@@ -84,7 +85,7 @@ class Statistics extends Component {
                                 </div>
                             </div>
                             <div className="lg:w-4/5 leading-normal">
-                                <Chart2 data={data.IncomeGrouped} />
+                                <StatsChartGrouped dataSum={data.IncomeGroupedPrice} dataCount={data.IncomeGroupedCount} />
                             </div>
                         </div>
                     </div>
@@ -102,7 +103,7 @@ class Statistics extends Component {
                                 </div>
                             </div>
                             <div className="lg:w-4/5 leading-normal">
-                                <Chart2 data={data.ExpenseGrouped} />
+                                <StatsChartGrouped dataSum={data.ExpenseGroupedPrice} dataCount={data.ExpenseGroupedCount} />
                             </div>
                         </div>
                     </div>

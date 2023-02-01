@@ -60,7 +60,7 @@ function Header(props) {
                         }
                         {isAuthenticated() && < NavLink to="/expense"
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">
-                            Expenditures</NavLink>
+                            Expenses</NavLink>
                         }
                         <NavLink to="/"
                             className="text-lg px-5 font-medium text-gray-500 hover:text-blue-500">

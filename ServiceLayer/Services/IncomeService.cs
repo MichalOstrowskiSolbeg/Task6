@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
+using ServiceLayer.Common;
 using ServiceLayer.DTO.Requests;
 using ServiceLayer.DTO.Responses;
 using ServiceLayer.Interfaces;
@@ -27,9 +28,18 @@ namespace ServiceLayer.Services
             return _mapper.Map<IncomeResponse>(await _repository.GetIncome(id));
         }
 
-        public async Task<List<IncomeResponse>> GetUserIncomes(int userId)
+        public async Task<PaginatedResponse<IncomeResponse>> GetUserIncomes(int userId, int page)
         {
-            return _mapper.Map<List<IncomeResponse>>(await _repository.GetIncomes(userId));
+            var results = await _repository.GetIncomes(userId);
+
+            return new PaginatedResponse<IncomeResponse>
+            {
+                Items = _mapper.Map<List<IncomeResponse>>(results
+                    .Skip((page - 1) * PaginationValues.PAGE_SIZE)
+                    .Take(PaginationValues.PAGE_SIZE)),
+                PageCount = (int)Math.Ceiling(results.Count() / (double)PaginationValues.PAGE_SIZE),
+                PageIndex = page
+            };
         }
 
         public async Task AddIncome(IncomeRequest request, int userId)

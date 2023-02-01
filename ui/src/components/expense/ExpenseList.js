@@ -11,20 +11,30 @@ class ExpenseList extends Component {
         this.state = {
             data: [],
             isLoaded: false,
+            page: 1,
             error: ''
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getData(this.state.page)
+    }
+
+    async getData(page) {
         try {
-            const res = await getExpenses();
+            const res = await getExpenses(page);
             this.setState({
                 data: res.data,
+                page: res.data.PageIndex,
                 isLoaded: true
             });
         } catch (error) {
             console.log(error)
         }
+    }
+
+    changePage = (page) => {
+        this.getData(page)
     }
 
     render() {
@@ -37,18 +47,18 @@ class ExpenseList extends Component {
         } else if (!isLoaded) {
             content = <p>Loading...</p>
         } else {
-            content = <ExpenseListTable data={data} />
+            content = <ExpenseListTable data={data} changePage={this.changePage} />
         }
 
         return (
             <main>
                 <H1 text="Expenses" />
                 <p>List of your expenses</p>
-                <div className="md:flex mb-6 mt-8 ">
+                <div className="md:flex mb-6 mt-6 ">
                     <div className="flex pb-3">
                         <Link
                             to={'/expense-categories'}
-                            className="shadow-xl bg-blue-400 hover:bg-white  hover:text-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"                >
+                            className="shadow-xl bg-blue-400 hover:bg-white  hover:text-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
                             Go to expense categories
                         </Link>
                     </div>

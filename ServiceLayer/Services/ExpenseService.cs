@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
+using ServiceLayer.Common;
 using ServiceLayer.DTO.Requests;
 using ServiceLayer.DTO.Responses;
 using ServiceLayer.Interfaces;
@@ -27,9 +28,18 @@ namespace ServiceLayer.Services
             return _mapper.Map<ExpenseResponse>(await _repository.GetExpense(id));
         }
 
-        public async Task<List<ExpenseResponse>> GetUserExpenses(int userId)
+        public async Task<PaginatedResponse<ExpenseResponse>> GetUserExpenses(int userId, int page)
         {
-            return _mapper.Map<List<ExpenseResponse>>(await _repository.GetExpenses(userId));
+            var results = await _repository.GetExpenses(userId);
+
+            return new PaginatedResponse<ExpenseResponse>
+            {
+                Items = _mapper.Map<List<ExpenseResponse>>(results
+                    .Skip((page - 1) * PaginationValues.PAGE_SIZE)
+                    .Take(PaginationValues.PAGE_SIZE)),
+                PageCount = (int)Math.Ceiling(results.Count() / (double)PaginationValues.PAGE_SIZE),
+                PageIndex = page
+            };
         }
 
         public async Task AddExpense(ExpenseRequest request, int userId)

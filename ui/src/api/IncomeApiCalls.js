@@ -1,7 +1,7 @@
 import api from "./AuthApi";
 
-export async function getIncome() {
-    return await api.get('/Income');
+export async function getIncome(page) {
+    return await api.get(`/Income?page=${page}`);
 }
 
 export async function getIncomeDetails(id) {

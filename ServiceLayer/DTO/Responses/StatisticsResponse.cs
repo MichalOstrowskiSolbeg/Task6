@@ -10,7 +10,9 @@ namespace ServiceLayer.DTO.Responses
     {
         public decimal IncomeSum { get; set; }
         public decimal ExpenseSum { get; set; }
-        public List<GroupResponse> IncomeGrouped { get; set; }
-        public List<GroupResponse> ExpenseGrouped { get; set; }
+        public List<SumGroupedResponse> IncomeGroupedPrice { get; set; }
+        public List<SumGroupedResponse> ExpenseGroupedPrice { get; set; }
+        public List<CountGroupedResponse> IncomeGroupedCount { get; set; }
+        public List<CountGroupedResponse> ExpenseGroupedCount { get; set; }
     }
 }

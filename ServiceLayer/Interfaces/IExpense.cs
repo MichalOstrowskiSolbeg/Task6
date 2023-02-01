@@ -10,7 +10,7 @@ namespace ServiceLayer.Interfaces
 {
     public interface IExpense
     {
-        Task<List<ExpenseResponse>> GetUserExpenses(int userId);
+        Task<PaginatedResponse<ExpenseResponse>> GetUserExpenses(int userId, int page);
 
         Task<ExpenseResponse> GetExpense(int id);
 

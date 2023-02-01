@@ -16,9 +16,9 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUserExpenses()
+        public async Task<IActionResult> GetUserExpenses(int page)
         {
-            return Ok(await _service.GetUserExpenses(GetUserId()));
+            return Ok(await _service.GetUserExpenses(GetUserId(), page));
         }
 
         [Authorize]

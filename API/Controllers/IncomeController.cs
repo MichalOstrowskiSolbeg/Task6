@@ -16,9 +16,9 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUserIncomes()
+        public async Task<IActionResult> GetUserIncomes(int page)
         {
-            return Ok(await _service.GetUserIncomes(GetUserId()));
+            return Ok(await _service.GetUserIncomes(GetUserId(), page));
         }
 
         [Authorize]

@@ -5,7 +5,22 @@ import TableItemEdit from "../fragments/TableItemEdit";
 import { getFormattedDate } from "../../helpers/DateFormat";
 
 function IncomeListTable(props) {
-    const list = props.data
+    const list = props.data.Items
+    const currentPage = props.data.PageIndex
+    const pageCount = props.data.PageCount
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            props.changePage(currentPage - 1)
+        }
+    }
+
+    const handleNextPage = () => {
+        if (currentPage < pageCount) {
+            props.changePage(currentPage + 1)
+        }
+    }
+
     return (
         <>
             <table className="w-full text-sm text-left text-gray-700 dark:text-gray-400">
@@ -34,6 +49,27 @@ function IncomeListTable(props) {
                     ))}
                 </tbody>
             </table>
+            <div className="flex justify-center mt-2 mb-4">
+                <button
+                    onClick={() => handlePreviousPage()}
+                    className="bg-gray-300 text-lg hover:bg-blue-400 px-4 py-2 mx-2 rounded-l">
+                    Prev
+                </button>
+                {Array.from({ length: pageCount }).map((x, i) => (
+                    <button
+                        key={i + 1}
+                        onClick={() => props.changePage(i + 1)}
+                        disabled={i + 1 === currentPage}
+                        className={i + 1 === currentPage ? 'bg-blue-400 text-lg px-4 py-2 mx-2' : 'bg-gray-300 text-lg hover:bg-blue-400 px-4 py-2 mx-2'}>
+                        {i + 1}
+                    </button>
+                ))}
+                <button
+                    onClick={() => handleNextPage()}
+                    className="bg-gray-300 text-lg hover:bg-blue-400 px-4 py-2 mx-2 rounded-r">
+                    Next
+                </button>
+            </div>
         </>
     )
 }

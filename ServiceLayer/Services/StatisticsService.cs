@@ -23,27 +23,27 @@ namespace ServiceLayer.Services
             _mapper = mapper;
         }
 
-        public async Task<StatisticsResponse> GetUserStatistics(int userId, TimeRange enums)
+        public async Task<StatisticsResponse> GetUserStatistics(int userId, TimeRange timeRange)
         {
             var income = await _incomeRepository.GetIncomes(userId);
 
             income = income.Where(x => 
-            enums == TimeRange.ThisMonth && x.Date.Month == DateTime.Now.Month ||
-            enums == TimeRange.LastMonth && x.Date.Month == DateTime.Now.AddMonths(-1).Month ||
-            enums == TimeRange.ThisYear && x.Date.Year == DateTime.Now.Year ||
-            enums == TimeRange.LastYear && x.Date.Year == DateTime.Now.AddYears(-1).Year ||
-            enums == TimeRange.AllTime
+            timeRange == TimeRange.ThisMonth && x.Date.Month == DateTime.Now.Month ||
+            timeRange == TimeRange.LastMonth && x.Date.Month == DateTime.Now.AddMonths(-1).Month ||
+            timeRange == TimeRange.ThisYear && x.Date.Year == DateTime.Now.Year ||
+            timeRange == TimeRange.LastYear && x.Date.Year == DateTime.Now.AddYears(-1).Year ||
+            timeRange == TimeRange.AllTime
             ).ToList();
 
 
             var expense = await _expenseRepository.GetExpenses(userId);
 
             expense = expense.Where(x =>
-            enums == TimeRange.ThisMonth && x.Date.Month == DateTime.Now.Month ||
-            enums == TimeRange.LastMonth && x.Date.Month == DateTime.Now.AddMonths(-1).Month ||
-            enums == TimeRange.ThisYear && x.Date.Year == DateTime.Now.Year ||
-            enums == TimeRange.LastYear && x.Date.Year == DateTime.Now.AddYears(-1).Year ||
-            enums == TimeRange.AllTime
+            timeRange == TimeRange.ThisMonth && x.Date.Month == DateTime.Now.Month ||
+            timeRange == TimeRange.LastMonth && x.Date.Month == DateTime.Now.AddMonths(-1).Month ||
+            timeRange == TimeRange.ThisYear && x.Date.Year == DateTime.Now.Year ||
+            timeRange == TimeRange.LastYear && x.Date.Year == DateTime.Now.AddYears(-1).Year ||
+            timeRange == TimeRange.AllTime
             ).ToList();
 
 
@@ -52,18 +52,30 @@ namespace ServiceLayer.Services
             {
                 IncomeSum = income.Sum(x => x.Price),
                 ExpenseSum = expense.Sum(x => x.Price),
-                IncomeGrouped = income.GroupBy(l => l.IncomeCategory)
-                .Select(cl => new GroupResponse
+                IncomeGroupedPrice = income.GroupBy(l => l.IncomeCategory)
+                .Select(cl => new SumGroupedResponse
                 {
                     Name = cl.First().IncomeCategory.Name,
-                    Sum = cl.Sum(c => c.Price),
+                    Sum = cl.Sum(c => c.Price)
                 }).ToList(),
-                ExpenseGrouped = expense.GroupBy(l => l.ExpenseCategory)
-                .Select(cl => new GroupResponse
+                ExpenseGroupedPrice = expense.GroupBy(l => l.ExpenseCategory)
+                .Select(cl => new SumGroupedResponse
                 {
                     Name = cl.First().ExpenseCategory.Name,
-                    Sum = cl.Sum(c => c.Price),
-                }).ToList()
+                    Sum = cl.Sum(c => c.Price)
+                }).ToList(),
+                IncomeGroupedCount = income.GroupBy(l => l.IncomeCategory)
+                .Select(cl => new CountGroupedResponse
+                {
+                    Name = cl.First().IncomeCategory.Name,
+                    Count = cl.Count()
+                }).ToList(),
+                ExpenseGroupedCount = expense.GroupBy(l => l.ExpenseCategory)
+                .Select(cl => new CountGroupedResponse
+                {
+                    Name = cl.First().ExpenseCategory.Name,
+                    Count = cl.Count()
+                }).ToList(),
             };
         }
     }

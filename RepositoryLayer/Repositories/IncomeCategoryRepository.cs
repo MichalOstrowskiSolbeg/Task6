@@ -26,6 +26,7 @@ namespace RepositoryLayer.Repositories
 
         public async Task DeleteIncomeCategory(int id)
         {
+            _context.Incomes.UpdateRange(await _context.Incomes.Where(x => x.IncomeCategoryId == id).ToListAsync());
             _context.IncomeCategories.Remove(await _context.IncomeCategories.FirstAsync(x => x.Id == id));
             await _context.SaveChangesAsync();
         }
@@ -38,12 +39,12 @@ namespace RepositoryLayer.Repositories
 
         public async Task<List<IncomeCategory>> GetIncomeCategories(int userId)
         {
-            return await _context.IncomeCategories.Where(x => x.UserId == userId).ToListAsync();
+            return await _context.IncomeCategories.Where(x => x.UserId == userId).AsNoTracking().ToListAsync();
         }
 
         public async Task<IncomeCategory> GetIncomeCategory(int id)
         {
-            return await _context.IncomeCategories.FirstAsync(x => x.Id == id);
+            return await _context.IncomeCategories.AsNoTracking().FirstAsync(x => x.Id == id);
         }
     }
 }
